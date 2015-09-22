@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MotionSensor</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="tvAccelerator">tvAccelerator</string>
+    <string name="tvGyroscope">tvGyroscope</string>
+    <string name="tvGravity">tvGravity</string>
+    <string name="tvMagnetic">tvMagnetic</string>
+    <string name="tvGPS">tvGPS</string>
+    <string name="title_activity_main_activity">MainActivity</string>
+</resources>
