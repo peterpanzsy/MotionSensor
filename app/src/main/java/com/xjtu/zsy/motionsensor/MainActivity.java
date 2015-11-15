@@ -70,16 +70,19 @@ public class MainActivity extends Activity implements View.OnClickListener,Servi
 
     @Override
     protected void onResume() {
+        MyService.log("activity onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        MyService.log("activity onPause");
         super.onPause();
     }
 
     @Override
-    public void onServiceConnected(ComponentName name, IBinder service) {
+    public void onServiceConnected(ComponentName name, IBinder service) {//服务被绑定成功执行
+        MyService.log("service connected");
         binder= (MyService.Binder) service;
         binder.getSerivce().setCallback(new MyService.Callback() {
             @Override
@@ -97,17 +100,17 @@ public class MainActivity extends Activity implements View.OnClickListener,Servi
     }
 
     @Override
-    public void onServiceDisconnected(ComponentName name) {
-
+    public void onServiceDisconnected(ComponentName name) {//服务所在进程崩溃，被杀掉时执行
+        MyService.log("service disconnected");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnBindService:
+            case R.id.btnBindService://绑定服务
                 bindService(new Intent(this,MyService.class),this, Context.BIND_AUTO_CREATE);
                 break;
-            case R.id.btnUnBindService:
+            case R.id.btnUnBindService://接触绑定服务
                 unbindService(this);
                 break;
         }
