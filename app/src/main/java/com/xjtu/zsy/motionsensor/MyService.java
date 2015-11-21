@@ -203,7 +203,7 @@ public class MyService extends Service implements SensorEventListener {
                     gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
                     gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
                     //String accelerator = "accelerated velocity \n"+"X:"+(event.values[0] - gravity[0])+"\nY:"+(event.values[1]-gravity[1])+"\nZ:"+(event.values[2] - gravity[2]);
-                    String accelerator = time + " " + (event.values[0]) + " " + (event.values[1]) + " " + (event.values[2] + "\n");
+                    String accelerator = time + "," + (event.values[0]) + "," + (event.values[1]) + "," + (event.values[2] + "\n");
                     if(callback!=null){
                         //callback.onDataChange(getResources().getString(R.string.tvAccelerator),accelerator);
                     }
@@ -213,21 +213,21 @@ public class MyService extends Service implements SensorEventListener {
                     gravity[0] = event.values[0];
                     gravity[1] = event.values[1];
                     gravity[2] = event.values[2];
-                    String gravity = time + " " + event.values[0] + " " + event.values[1] + " " + event.values[2]  + "\n";
+                    String gravity = time + "," + event.values[0] + "," + event.values[1] + "," + event.values[2]  + "\n";
                     if(callback!=null){
                        // callback.onDataChange(getResources().getString(R.string.tvGravity),gravity);
                     }
                     gravityOsw.write(gravity);
                     break;
                 case Sensor.TYPE_GYROSCOPE:
-                    String gyroscope = time + " " + event.values[0] + " " + event.values[1] + " " + event.values[2]  + "\n";
+                    String gyroscope = time + "," + event.values[0] + "," + event.values[1] + "," + event.values[2]  + "\n";
                     if(callback!=null){
                        // callback.onDataChange(getResources().getString(R.string.tvGyroscope),gyroscope);
                     }
                     gyroOsw.write(gyroscope);
                     break;
                 case Sensor.TYPE_MAGNETIC_FIELD:
-                    String magnetic =time + " " + event.values[0] + " " + event.values[1] + " " + event.values[2]  + "\n";
+                    String magnetic =time + "," + event.values[0] + "," + event.values[1] + "," + event.values[2]  + "\n";
                     if(callback!=null){
                        // callback.onDataChange(getResources().getString(R.string.tvMagnetic),magnetic);
                     }
@@ -273,8 +273,8 @@ public class MyService extends Service implements SensorEventListener {
         if(newLocation != null){
             SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd:HH:mm:ss:SSS");
             String time = df.format(new Date());
-            String gps = time+" "+newLocation.getLongitude()+" "+newLocation.getLatitude()+" "+newLocation.getAltitude()+" "
-                    +newLocation.getSpeed()+" "+newLocation.getBearing()+"\n";
+            String gps = time+","+newLocation.getLongitude()+","+newLocation.getLatitude()+","+newLocation.getAltitude()+","
+                    +newLocation.getSpeed()+","+newLocation.getBearing()+"\n";
             try {
                 if(callback!=null){
                     //callback.onDataChange(getResources().getString(R.string.tvGPS),gps);
@@ -299,33 +299,33 @@ public class MyService extends Service implements SensorEventListener {
         if(!dataDir.exists()){
             dataDir.mkdirs();
         }
-        accFile = new File(dataDir,"ACCELEROMETER.txt");
-        gyroFile = new File(dataDir,"GYROSCOPE.txt");
-        gravityFile = new File(dataDir,"GRAVITY.txt");
-        magneticFile = new File(dataDir,"MAGNETIC.txt");
-        gpsFile = new File(dataDir,"GPS.txt");
+        accFile = new File(dataDir,"ACCELEROMETER.csv");
+        gyroFile = new File(dataDir,"GYROSCOPE.csv");
+        gravityFile = new File(dataDir,"GRAVITY.csv");
+        magneticFile = new File(dataDir,"MAGNETIC.csv");
+        gpsFile = new File(dataDir,"GPS.csv");
 
         try {
             accFile.createNewFile();
             accFos = new FileOutputStream(accFile);
             accOsw = new OutputStreamWriter(accFos);
-            accOsw.write("TIME X Y Z\n");
+            accOsw.write("TIME,X,Y,Z\n");
             gyroFile.createNewFile();
             gyroFos = new FileOutputStream(gyroFile);
             gyroOsw = new OutputStreamWriter(gyroFos);
-            gyroOsw.write("TIME X Y Z\n");
+            gyroOsw.write("TIME,X,Y,Z\n");
             gravityFile.createNewFile();
             gravityFos = new FileOutputStream(gravityFile);
             gravityOsw = new OutputStreamWriter(gravityFos);
-            gravityOsw.write("TIME X Y Z\n");
+            gravityOsw.write("TIME,X,Y,Z\n");
             magneticFile.createNewFile();
             magneticFos = new FileOutputStream(magneticFile);
             magneticOsw = new OutputStreamWriter(magneticFos);
-            magneticOsw.write("TIME X Y Z\n");
+            magneticOsw.write("TIME,X,Y,Z\n");
             gpsFile.createNewFile();
             gpsFos = new FileOutputStream(gpsFile);
             gpsOsw = new OutputStreamWriter(gpsFos);
-            gpsOsw.write("TIME Longitude Latitude Altitude Speed Bearing\n");
+            gpsOsw.write("TIME,Longitude,Latitude,Altitude,Speed,Bearing\n");
             Toast.makeText(getApplicationContext(),"files created!",Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
